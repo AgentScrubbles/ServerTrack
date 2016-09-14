@@ -151,7 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +186,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ServerTrackerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -258,6 +258,16 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ServerTrack.Infrastructure\ServerTrack.Infrastructure.csproj">
+      <Project>{18030A70-E8F4-4527-86BB-19C4C4E53E10}</Project>
+      <Name>ServerTrack.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServerTrack.Logic\ServerTrack.Logic.csproj">
+      <Project>{5B2332AD-1EB0-429D-BFDD-2D9CF54844B6}</Project>
+      <Name>ServerTrack.Logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -4,6 +4,7 @@ using AutoMoq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ServerTrack.Infrastructure;
+using ServerTrack.Logic;
 
 namespace ServerTrack.Test
 {
@@ -25,7 +26,14 @@ namespace ServerTrack.Test
             _dateTimeServiceMock = _moq.GetMock<IDateTimeService>();
             _dateTimeServiceMock.Setup(k => k.GetCurrent()).Returns(new DateTime(2016, 9, 13));
             _dateTimeService = _dateTimeServiceMock.Object;
-            _serverTracker = new ServerTracker(_dateTimeService);
+            _serverTracker = ServerTracker.GetInstance(_dateTimeService);
+        }
+
+        [TestCleanup]
+        public void Teardown()
+        {
+            _serverTracker = null;
+            ServerTracker.DestroyInstance();
         }
 
         [TestMethod]

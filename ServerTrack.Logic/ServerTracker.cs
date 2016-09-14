@@ -3,9 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ServerTrack.Infrastructure;
 using ServerTrack.Logic.Models;
 
-namespace ServerTrack.Infrastructure
+namespace ServerTrack.Logic
 {
     public interface IServerTracker
     {
@@ -16,10 +17,31 @@ namespace ServerTrack.Infrastructure
     }
     public class ServerTracker : IServerTracker
     {
-        private IDateTimeService _dateTimeService;
+        private readonly IDateTimeService _dateTimeService;
+        private static readonly object _loq = new object();
         private ConcurrentDictionary<string, ConcurrentDictionary<DateTime, ConcurrentBag<Load>>> _loads;
 
-        public ServerTracker(IDateTimeService dateTimeService)
+        private static IServerTracker _instance;
+
+        // Usually I'd prever dependency injection, but for the sake of time I'll use a singleton
+        public static IServerTracker GetInstance(IDateTimeService dateTimeService)
+        {
+            lock (_loq)
+            {
+                return _instance ?? (_instance = new ServerTracker(dateTimeService));
+            }
+        }
+
+        //Used only for testing
+        public static void DestroyInstance()
+        {
+            lock (_loq)
+            {
+                _instance = null;
+            }
+        }
+
+        private ServerTracker(IDateTimeService dateTimeService)
         {
             _dateTimeService = dateTimeService;
             _loads = new ConcurrentDictionary<string, ConcurrentDictionary<DateTime, ConcurrentBag<Load>>>();
